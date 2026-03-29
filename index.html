@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bac Blanc N°2 NSI 2025 </title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/theme/dracula.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/python/python.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/sql/sql.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<style>
+:root{--bg:#f0f2f5;--card:#fff;--primary:#1e3a5f;--accent:#e74c3c;--success:#27ae60;--danger:#c0392b;--warning:#f39c12;--text:#2c3e50;--tl:#7f8c8d;--border:#dfe6e9;--cbg:#282a36;--rad:12px;--sh:0 4px 18px rgba(0,0,0,.06)}
+*{margin:0;padding:0;box-sizing:border-box}body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--text);line-height:1.6;user-select:none}
+.hdr{background:linear-gradient(135deg,#1e3a5f,#c0392b);color:#fff;padding:14px 22px;position:sticky;top:0;z-index:100;box-shadow:0 4px 16px rgba(30,58,95,.3)}
+.hdr-top{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px}.hdr h1{font-size:1.05rem;font-weight:700}.hdr .sub{opacity:.85;font-size:.72rem}
+.tmr{background:rgba(255,255,255,.15);border-radius:9px;padding:7px 14px;text-align:center;backdrop-filter:blur(5px)}.tmr .t{font-size:1.3rem;font-weight:700;font-variant-numeric:tabular-nums}.tmr .l{font-size:.58rem;text-transform:uppercase;letter-spacing:1px;opacity:.8}
+.tmr.w .t{color:#f39c12;animation:p 1s infinite}.tmr.d .t{color:#ff7675;animation:p .5s infinite}@keyframes p{0%,100%{opacity:1}50%{opacity:.5}}
+.ci{display:flex;align-items:center;gap:6px}.cc{background:rgba(255,255,255,.2);padding:3px 8px;border-radius:7px;font-size:.68rem}.cc.alert{background:rgba(231,76,60,.5);animation:p .5s infinite}
+.sv{font-size:.65rem;opacity:.8;display:flex;align-items:center;gap:3px}.sv .dot{width:6px;height:6px;border-radius:50%;background:var(--success);display:inline-block}
+.tabs{display:flex;background:#fff;border-bottom:2px solid var(--border);padding:0 8px;overflow-x:auto;box-shadow:var(--sh)}
+.tab{padding:9px 13px;cursor:pointer;border:none;background:none;font-size:.74rem;font-weight:600;color:var(--tl);position:relative;transition:.3s;white-space:nowrap}
+.tab:hover{color:var(--primary)}.tab.active{color:var(--primary)}.tab.active::after{content:'';position:absolute;bottom:-2px;left:0;right:0;height:3px;background:var(--primary);border-radius:3px 3px 0 0}
+.tab .b{background:var(--primary);color:#fff;border-radius:12px;padding:1px 6px;font-size:.58rem;margin-left:3px}.tab.done .b{background:var(--success)}
+.ctn{max-width:1000px;margin:0 auto;padding:12px}.pnl{display:none}.pnl.active{display:block}
+.exh{background:var(--card);border-radius:var(--rad);padding:16px;margin-bottom:10px;box-shadow:var(--sh);border-left:4px solid var(--primary)}.exh h2{font-size:1rem;color:var(--primary);margin-bottom:2px}.exh .th{font-style:italic;color:var(--tl);font-size:.78rem}.exh .pb{display:inline-block;background:linear-gradient(135deg,var(--primary),var(--accent));color:#fff;padding:2px 10px;border-radius:12px;font-size:.68rem;font-weight:600;margin-top:4px}
+.ctx{background:var(--card);border-radius:var(--rad);padding:12px 16px;margin-bottom:10px;box-shadow:var(--sh);font-size:.8rem;border:1px solid var(--border)}
+.ctx code{background:#eaf2f8;padding:1px 4px;border-radius:3px;font-family:'Fira Code',monospace;font-size:.74rem;color:#1e3a5f}
+.ctx pre{background:var(--cbg);color:#f8f8f2;padding:9px;border-radius:6px;overflow-x:auto;font-size:.74rem;margin:4px 0}.ctx pre code{background:none;color:inherit}
+.ctx table{border-collapse:collapse;width:100%;margin:4px 0;font-size:.72rem}.ctx th,.ctx td{border:1px solid #bbb;padding:3px 5px;text-align:center}.ctx th{background:#d6eaf8;font-weight:600;color:var(--primary)}
+.ph{background:linear-gradient(135deg,rgba(30,58,95,.08),rgba(192,57,43,.04));padding:10px 14px;border-radius:8px;margin:12px 0 8px;border-left:3px solid var(--accent)}.ph h3{color:var(--accent);font-size:.9rem}
+.qc{background:var(--card);border-radius:var(--rad);padding:14px;margin-bottom:8px;box-shadow:var(--sh);border:2px solid transparent;transition:.3s}.qc:hover{border-color:rgba(30,58,95,.08)}.qc.ok{border-color:var(--success);background:#eafaf1}.qc.ko{border-color:var(--danger);background:#fdedec}
+.qt{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:5px;gap:6px}.qn{background:var(--primary);color:#fff;min-width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.62rem;flex-shrink:0;padding:0 4px}
+.qtx{flex:1;font-size:.8rem}.qtx code{background:#eaf2f8;padding:1px 3px;border-radius:3px;font-family:'Fira Code',monospace;font-size:.74rem;color:#1e3a5f}
+.qtx pre{background:var(--cbg);color:#f8f8f2;padding:7px;border-radius:5px;overflow-x:auto;font-size:.72rem;margin:3px 0}.qtx pre code{background:none;color:inherit}
+.qp{background:#d6eaf8;color:var(--primary);padding:1px 6px;border-radius:8px;font-size:.6rem;font-weight:600;white-space:nowrap}
+.ans{margin-top:5px}.ans textarea{width:100%;min-height:55px;padding:7px;border:2px solid var(--border);border-radius:5px;font-size:.8rem;resize:vertical;font-family:inherit;transition:.3s;user-select:text}.ans textarea:focus{outline:none;border-color:var(--primary)}
+.cw{border:2px solid var(--border);border-radius:5px;overflow:hidden;transition:.3s}.cw:focus-within{border-color:var(--primary)}.cw .CodeMirror{height:auto;min-height:68px;font-size:.74rem}
+.cor{margin-top:7px;padding:9px;border-radius:5px;display:none}.cor.show{display:block}.cor.cok{background:#eafaf1;border:1px solid #a9dfbf}.cor.cko{background:#fdedec;border:1px solid #f5b7b1}
+.cor .ri{font-size:.8rem;font-weight:700;margin-bottom:2px}.cor h4{font-size:.66rem;color:var(--tl);margin-bottom:2px;text-transform:uppercase;letter-spacing:.5px}
+.cor .ex{background:#d5f5e3;padding:6px;border-radius:4px;font-family:'Fira Code',monospace;font-size:.7rem;white-space:pre-wrap;margin:2px 0;border:1px solid #a9dfbf}
+.cor .ep{font-size:.74rem;color:var(--tl);margin-top:4px;padding:6px;background:rgba(30,58,95,.04);border-radius:4px;border-left:3px solid var(--primary)}
+.sub{text-align:center;padding:20px 12px;margin-top:8px}
+.btn{padding:8px 16px;border:none;border-radius:6px;font-size:.82rem;font-weight:600;cursor:pointer;transition:.3s;display:inline-flex;align-items:center;gap:4px}
+.bp{background:var(--primary);color:#fff}.bp:hover{background:#153054;transform:translateY(-1px)}.bs{background:var(--success);color:#fff}.bo{background:transparent;border:2px solid var(--primary);color:var(--primary)}.bo:hover{background:var(--primary);color:#fff}.btn:disabled{opacity:.5;cursor:not-allowed;transform:none}
+.ov{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.5);z-index:200;justify-content:center;align-items:center;padding:14px}.ov.show{display:flex}
+.mod{background:#fff;border-radius:14px;padding:24px;max-width:460px;width:100%;text-align:center;max-height:90vh;overflow-y:auto;box-shadow:0 18px 45px rgba(0,0,0,.25)}
+.mod .gc{width:110px;height:110px;border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;margin:10px auto;font-size:1.7rem;font-weight:800;color:#fff}
+.ge{background:linear-gradient(135deg,#27ae60,#229954)}.gb{background:linear-gradient(135deg,#2980b9,#3498db)}.gab{background:linear-gradient(135deg,#f39c12,#e67e22)}.gp{background:linear-gradient(135deg,#f1c40f,#f39c12)}.gi{background:linear-gradient(135deg,#c0392b,#e74c3c)}
+.gc small{font-size:.65rem;font-weight:400;opacity:.9}.mod .ap{font-size:.95rem;font-weight:700;margin:4px 0}.mod .pct{font-size:.8rem;color:var(--tl)}
+.esc{text-align:left;margin:10px 0;padding:8px;background:#f8f9fa;border-radius:7px}.esc .sr{display:flex;justify-content:space-between;padding:3px 0;border-bottom:1px solid var(--border)}.esc .sr:last-child{border:none}
+.pbr{height:5px;background:#ecf0f1;border-radius:3px;overflow:hidden;margin-top:2px}.pbr .fill{height:100%;border-radius:3px;transition:width .8s ease}
+.bg{display:flex;gap:6px;justify-content:center;margin-top:10px;flex-wrap:wrap}.locked .ans textarea,.locked .CodeMirror{opacity:.7;pointer-events:none}
+.cheat-ov{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(231,76,60,.95);z-index:300;justify-content:center;align-items:center;flex-direction:column;color:#fff;text-align:center;padding:24px}.cheat-ov.show{display:flex}.cheat-ov h2{font-size:1.6rem;margin-bottom:10px}.cheat-ov p{font-size:.9rem;max-width:450px;margin-bottom:10px}.cheat-ov .wc{font-size:2.5rem;font-weight:800;background:rgba(255,255,255,.2);width:70px;height:70px;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:8px auto}
+.fs-prompt{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(30,58,95,.97);z-index:250;justify-content:center;align-items:center;flex-direction:column;color:#fff;text-align:center;padding:24px}.fs-prompt.show{display:flex}.fs-prompt h2{font-size:1.3rem;margin-bottom:8px}.fs-prompt p{font-size:.85rem;max-width:420px;margin-bottom:16px;opacity:.9}
+@media(max-width:768px){.hdr-top{flex-direction:column;text-align:center}.tab{padding:7px 8px;font-size:.68rem}.ctn{padding:6px}}
+</style>
+</head>
+<body>
+
+<div class="fs-prompt show" id="fsPrompt">
+<h2>🔒 Mode Examen — Bac Blanc N°2 NSI 2025</h2>
+<p>Pour commencer, activez le <strong>mode plein écran</strong>. Toute tentative de quitter l'écran ou changer d'onglet = <strong>avertissement de triche</strong>.</p>
+<p>⚠️ Après <strong>3 avertissements</strong> → <strong>soumission automatique</strong>.</p>
+<button class="btn bp" onclick="startExam()" style="font-size:1rem;padding:12px 36px">🚀 Commencer en plein écran</button>
+</div>
+
+<div class="cheat-ov" id="cheatOv">
+<h2>⚠️ TRICHE DÉTECTÉE</h2>
+<div class="wc" id="warnD">1</div>
+<p>Vous avez quitté la fenêtre d'examen.</p>
+<p id="cheatMsg">Il vous reste <strong><span id="warnR">2</span></strong> avertissement(s) avant la soumission automatique.</p>
+<button class="btn" onclick="dismissCheat()" style="background:#fff;color:#e74c3c;font-size:.9rem;padding:10px 24px;margin-top:8px">Revenir à l'examen</button>
+</div>
+
+<div class="hdr"><div class="hdr-top">
+<div><h1>🏫 Bac Blanc N°2 NSI 2025 </h1><div class="sub">Numérique et Sciences Informatiques — 3h30</div></div>
+<div class="tmr" id="timerBox"><div class="l">⏱ Temps restant</div><div class="t" id="timerDisplay">03:30:00</div></div>
+<div class="ci"><div class="cc" id="cheatBadge">🛡️ <span id="cheatCount">0</span>/3</div><div class="sv" id="saveInd"><span class="dot"></span> Auto</div></div>
+</div></div>
+
+<div class="tabs">
+<button class="tab active" data-tab="0" onclick="switchTab(0)">🌐 Ex.1 Routage <span class="b">8</span></button>
+<button class="tab" data-tab="1" onclick="switchTab(1)">💾 Ex.2 BDD <span class="b">7</span></button>
+<button class="tab" data-tab="2" onclick="switchTab(2)">⚙️ Ex.3 Processus <span class="b">5</span></button>
+</div>
+
+<div class="ctn" id="mainContainer">
+
+<!-- ===== EX 1 ===== -->
+<div class="pnl active" id="panel0">
+<div class="exh"><h2>Exercice 1 — Protocoles de routage</h2><div class="th">Réseaux locaux, RIP, OSPF, adressage IP</div><span class="pb">8 points</span></div>
+
+<div class="ph"><h3>Partie A — Réseau Local 2 (172.16.x.x/20)</h3></div>
+
+<div class="qc" id="card_e1q1"><div class="qt"><div class="qn">A1</div><div class="qtx">Quel est le masque de sous-réseau /20 en notation <strong>décimale pointée</strong> et en notation <strong>binaire</strong> ?</div><div class="qp">0.5</div></div>
+<div class="ans"><textarea id="ans_e1q1" placeholder="Décimale : ...&#10;Binaire : ..."></textarea></div><div class="cor" id="corr_e1q1"></div></div>
+
+<div class="qc" id="card_e1q2"><div class="qt"><div class="qn">A2</div><div class="qtx">Nombre maximal de machines connectables avec ce masque /20 ?</div><div class="qp">0.5</div></div>
+<div class="ans"><textarea id="ans_e1q2" placeholder="Calcul et résultat..."></textarea></div><div class="cor" id="corr_e1q2"></div></div>
+
+<div class="qc" id="card_e1q3"><div class="qt"><div class="qn">A3</div><div class="qtx">Convertir l'adresse IP <code>172.16.8.8</code> en binaire. Détailler chaque octet.</div><div class="qp">0.75</div></div>
+<div class="ans"><textarea id="ans_e1q3" placeholder="172 = ...&#10;16 = ...&#10;8 = ...&#10;8 = ..." style="min-height:70px"></textarea></div><div class="cor" id="corr_e1q3"></div></div>
+
+<div class="qc" id="card_e1q4"><div class="qt"><div class="qn">A4</div><div class="qtx">Déterminer l'adresse réseau de 172.16.8.8/20 par opération AND avec le masque. Donner le résultat en binaire et décimal.</div><div class="qp">0.75</div></div>
+<div class="ans"><textarea id="ans_e1q4" placeholder="IP AND Masque = ...&#10;Adresse réseau : ..." style="min-height:70px"></textarea></div><div class="cor" id="corr_e1q4"></div></div>
+
+<div class="qc" id="card_e1q5"><div class="qt"><div class="qn">A5</div><div class="qtx">Déduire l'adresse de <strong>diffusion (broadcast)</strong> en binaire et décimal.</div><div class="qp">0.5</div></div>
+<div class="ans"><textarea id="ans_e1q5" placeholder="Broadcast : ..."></textarea></div><div class="cor" id="corr_e1q5"></div></div>
+
+<div class="qc" id="card_e1q6"><div class="qt"><div class="qn">A6</div><div class="qtx">IP la plus basse et la plus haute attribuables à des machines sur ce réseau ?</div><div class="qp">0.5</div></div>
+<div class="ans"><textarea id="ans_e1q6" placeholder="Plus basse : ...&#10;Plus haute : ..."></textarea></div><div class="cor" id="corr_e1q6"></div></div>
+
+<div class="ph"><h3>Partie B — Protocole RIP</h3></div>
+
+<div class="qc" id="card_e1q7"><div class="qt"><div class="qn">B1</div><div class="qtx">Compléter la <strong>table de routage de R5</strong> (11 lignes : destinations, passerelles, sauts).</div><div class="qp">1.5</div></div>
+<div class="ans"><textarea id="ans_e1q7" placeholder="DESTINATION | PASSERELLE | SAUTS&#10;90.90.90.0 | 90.90.90.5 | 0&#10;..." style="min-height:140px"></textarea></div><div class="cor" id="corr_e1q7"></div></div>
+
+<div class="qc" id="card_e1q8"><div class="qt"><div class="qn">B2</div><div class="qtx">Trajet de R1 à R6 (RIP) ? Routeurs intermédiaires et nombre de sauts.</div><div class="qp">0.5</div></div>
+<div class="ans"><textarea id="ans_e1q8" placeholder="R1 → ... → R6, X sauts"></textarea></div><div class="cor" id="corr_e1q8"></div></div>
+
+<div class="ph"><h3>Partie C — Protocole OSPF</h3></div>
+
+<div class="qc" id="card_e1q9"><div class="qt"><div class="qn">C1</div><div class="qtx">Calculer les coûts OSPF (coût = 10⁸/débit en bps) pour chaque liaison entre routeurs.
+<table><tr><th>Liaison</th><th>R1-R2</th><th>R1-R4</th><th>R2-R3</th><th>R2-R5</th><th>R2-R6</th><th>R3-R4</th><th>R3-R6</th><th>R4-R5</th><th>R5-R6</th></tr>
+<tr><td>Débit</td><td>100M</td><td>10M</td><td>10M</td><td>100M</td><td>10M</td><td>100M</td><td>100M</td><td>100M</td><td>10M</td></tr>
+<tr><td>Coût</td><td>?</td><td>?</td><td>?</td><td>?</td><td>?</td><td>?</td><td>?</td><td>?</td><td>?</td></tr></table></div><div class="qp">1.25</div></div>
+<div class="ans"><textarea id="ans_e1q9" placeholder="R1-R2: ..., R1-R4: ..., R2-R3: ..., etc."></textarea></div><div class="cor" id="corr_e1q9"></div></div>
+
+<div class="qc" id="card_e1q10"><div class="qt"><div class="qn">C3</div><div class="qtx">Chemin le <strong>moins coûteux</strong> reliant R1 à R6 (OSPF) et son coût total.</div><div class="qp">0.75</div></div>
+<div class="ans"><textarea id="ans_e1q10" placeholder="Chemin : R1 → ... → R6&#10;Coût : ..."></textarea></div><div class="cor" id="corr_e1q10"></div></div>
+
+<div style="text-align:right;margin-top:6px"><button class="btn bp" onclick="switchTab(1)">Ex.2 →</button></div>
+</div>
+
+<!-- ===== EX 2 ===== -->
+<div class="pnl" id="panel1">
+<div class="exh"><h2>Exercice 2 — Bases de données relationnelles</h2><div class="th">Gestion commerciale : Produit, Client, Commande, Ligne_Cmd</div><span class="pb">7 points</span></div>
+
+<div class="ctx">
+<p><strong>Tables :</strong> Produit(<u>NP</u>, Libelle, Couleur, Prix, Qte_Pdt), Client(<u>NCL</u>, Nom, Adresse), Commande(<u>NCmd</u>, DateCmd, #NCL), Ligne_Cmd(<u>#NCmd, #NP</u>, Qte_Cmd)</p>
+</div>
+
+<div class="qc" id="card_e2q1"><div class="qt"><div class="qn">1</div><div class="qtx">Donner le <strong>schéma de la relation Commande</strong> (attributs, types, clés).</div><div class="qp">0.5</div></div>
+<div class="ans"><textarea id="ans_e2q1" placeholder="Commande(NCmd: ..., DateCmd: ..., #NCL: ...)"></textarea></div><div class="cor" id="corr_e2q1"></div></div>
+
+<div class="qc" id="card_e2q2"><div class="qt"><div class="qn">2a</div><div class="qtx"><code>NCmd</code> peut-il être clé primaire dans <code>Ligne_Cmd</code> ? Justifier.</div><div class="qp">0.5</div></div>
+<div class="ans"><textarea id="ans_e2q2" placeholder="Oui/Non car..."></textarea></div><div class="cor" id="corr_e2q2"></div></div>
+
+<div class="qc" id="card_e2q3"><div class="qt"><div class="qn">2b</div><div class="qtx">Proposer la clé primaire de <code>Ligne_Cmd</code>.</div><div class="qp">0.5</div></div>
+<div class="ans"><textarea id="ans_e2q3" placeholder="Clé primaire : ..."></textarea></div><div class="cor" id="corr_e2q3"></div></div>
+
+<div class="qc" id="card_e2q4"><div class="qt"><div class="qn">3</div><div class="qtx">Pour chaque requête, indiquer la <strong>cause de l'erreur</strong> :<br>
+<strong>a)</strong> <code>INSERT INTO Commande VALUES('C004','2022-02-03','CL04');</code><br>
+<strong>b)</strong> <code>INSERT INTO Commande VALUES('C004','2022-02-03',CL02);</code><br>
+<strong>c)</strong> <code>INSERT INTO Commande VALUES('C002','2022-02-03','CL03');</code><br>
+<strong>d)</strong> <code>DELETE FROM Commande WHERE DateCmd='2022-01-31';</code></div><div class="qp">2</div></div>
+<div class="ans"><textarea id="ans_e2q4" placeholder="a) Erreur car...&#10;b) Erreur car...&#10;c) Erreur car...&#10;d) Erreur car..." style="min-height:100px"></textarea></div><div class="cor" id="corr_e2q4"></div></div>
+
+<div class="qc" id="card_e2q5"><div class="qt"><div class="qn">4</div><div class="qtx">Résultat de la requête avec jointures WHERE Nom='AMS' ?</div><div class="qp">0.5</div></div>
+<div class="ans"><textarea id="ans_e2q5" placeholder="Libelle&#10;..."></textarea></div><div class="cor" id="corr_e2q5"></div></div>
+
+<div class="qc" id="card_e2q6"><div class="qt"><div class="qn">5a</div><div class="qtx"><strong>Q1</strong> : Libellé et prix des produits avec Qte_Pdt > 1000.</div><div class="qp">0.5</div></div>
+<div class="ans"><div class="cw"><textarea id="ans_e2q6" class="code-editor" data-mode="sql"></textarea></div></div><div class="cor" id="corr_e2q6"></div></div>
+
+<div class="qc" id="card_e2q7"><div class="qt"><div class="qn">5b</div><div class="qtx"><strong>Q2</strong> : N° de commandes (sans doublons) contenant des produits Blancs.</div><div class="qp">0.75</div></div>
+<div class="ans"><div class="cw"><textarea id="ans_e2q7" class="code-editor" data-mode="sql"></textarea></div></div><div class="cor" id="corr_e2q7"></div></div>
+
+<div class="qc" id="card_e2q8"><div class="qt"><div class="qn">5c</div><div class="qtx"><strong>Q3</strong> : Diminuer de 10% les Qte_Cmd de la commande 'C001'.</div><div class="qp">0.5</div></div>
+<div class="ans"><div class="cw"><textarea id="ans_e2q8" class="code-editor" data-mode="sql"></textarea></div></div><div class="cor" id="corr_e2q8"></div></div>
+
+<div class="qc" id="card_e2q9"><div class="qt"><div class="qn">5d</div><div class="qtx"><strong>Q4</strong> : Batam (CL01, commande C001) ajoute 200 prises (P002).</div><div class="qp">0.5</div></div>
+<div class="ans"><div class="cw"><textarea id="ans_e2q9" class="code-editor" data-mode="sql"></textarea></div></div><div class="cor" id="corr_e2q9"></div></div>
+
+<div class="qc" id="card_e2q10"><div class="qt"><div class="qn">6</div><div class="qtx">Suite d'instructions pour <strong>supprimer le client AMS</strong> sans erreur.</div><div class="qp">0.75</div></div>
+<div class="ans"><div class="cw"><textarea id="ans_e2q10" class="code-editor" data-mode="sql"></textarea></div></div><div class="cor" id="corr_e2q10"></div></div>
+
+<div style="display:flex;justify-content:space-between;margin-top:6px"><button class="btn bo" onclick="switchTab(0)">← Ex.1</button><button class="btn bp" onclick="switchTab(2)">Ex.3 →</button></div>
+</div>
+
+<!-- ===== EX 3 ===== -->
+<div class="pnl" id="panel2">
+<div class="exh"><h2>Exercice 3 — Processus & Diviser pour régner</h2><div class="th">FCFS, SJF, SRTF, Classe Processus, diviser pour régner</div><span class="pb">5 points</span></div>
+
+<div class="ctx">
+<p><strong>Processus :</strong></p>
+<table><tr><th>Processus</th><th>Arrivée</th><th>Durée</th></tr>
+<tr><td>P1</td><td>0</td><td>3</td></tr><tr><td>P2</td><td>6</td><td>1</td></tr><tr><td>P3</td><td>2</td><td>2</td></tr><tr><td>P4</td><td>1</td><td>4</td></tr><tr><td>P5</td><td>5</td><td>3</td></tr></table>
+</div>
+
+<div class="qc" id="card_e3q1"><div class="qt"><div class="qn">A1</div><div class="qtx">Compléter le diagramme de Gantt <strong>FCFS</strong> (non préemptif, ordre d'arrivée).</div><div class="qp">0.75</div></div>
+<div class="ans"><textarea id="ans_e3q1" placeholder="0-3: P1, 3-7: P4, 7-9: P3, ..." style="min-height:60px"></textarea></div><div class="cor" id="corr_e3q1"></div></div>
+
+<div class="qc" id="card_e3q2"><div class="qt"><div class="qn">A2</div><div class="qtx">Compléter le diagramme de Gantt <strong>SJF</strong> (non préemptif, plus court d'abord).</div><div class="qp">1</div></div>
+<div class="ans"><textarea id="ans_e3q2" placeholder="0-3: P1, 3-5: P3, 5-8: P5, ..." style="min-height:60px"></textarea></div><div class="cor" id="corr_e3q2"></div></div>
+
+<div class="qc" id="card_e3q3"><div class="qt"><div class="qn">A3</div><div class="qtx">Compléter le diagramme de Gantt <strong>SRTF</strong> (préemptif, plus court temps restant).</div><div class="qp">1</div></div>
+<div class="ans"><textarea id="ans_e3q3" placeholder="0-3: P1, 3-5: P3, 5-6: P5, 6-7: P2, 7-9: P5, 9-13: P4" style="min-height:70px"></textarea></div><div class="cor" id="corr_e3q3"></div></div>
+
+<div class="ph"><h3>Partie B — Diviser pour régner</h3></div>
+
+<div class="qc" id="card_e3q4"><div class="qt"><div class="qn">B1</div><div class="qtx">Écrire <code>moitie_gauche(lst)</code> : renvoie la 1ère moitié. Ex: [1,2,3]→[1], [1,2,3,4]→[1,2].</div><div class="qp">0.5</div></div>
+<div class="ans"><div class="cw"><textarea id="ans_e3q4" class="code-editor" data-mode="python"></textarea></div></div><div class="cor" id="corr_e3q4"></div></div>
+
+<div class="qc" id="card_e3q5"><div class="qt"><div class="qn">B2</div><div class="qtx">Écrire <code>moitie_droite(lst)</code> : renvoie la 2ème moitié. Ex: [1,2,3]→[2,3], [1,2,3,4]→[3,4].</div><div class="qp">0.5</div></div>
+<div class="ans"><div class="cw"><textarea id="ans_e3q5" class="code-editor" data-mode="python"></textarea></div></div><div class="cor" id="corr_e3q5"></div></div>
+
+<div class="qc" id="card_e3q6"><div class="qt"><div class="qn">B3</div><div class="qtx">Compléter <code>le_plus_court(file_attente)</code> (diviser pour régner) :
+<pre><code>def le_plus_court(file_attente):
+    n = len(file_attente)
+    if n == 0: return None
+    if n == 1: return ...............
+    file_gauche = moitie_gauche(file_attente)
+    file_droite = moitie_droite(............)
+    le_plus_court_1 = ......................
+    le_plus_court_2 = le_plus_court(........)
+    if le_plus_court_1........... < le_plus_court_2...........:
+        return le_plus_court_1
+    return ...............</code></pre></div><div class="qp">1.25</div></div>
+<div class="ans"><div class="cw"><textarea id="ans_e3q6" class="code-editor" data-mode="python"></textarea></div></div><div class="cor" id="corr_e3q6"></div></div>
+
+<div style="text-align:left;margin-top:6px"><button class="btn bo" onclick="switchTab(1)">← Ex.2</button></div>
+</div>
+
+<div class="sub"><div style="max-width:380px;margin:0 auto;padding:18px;background:var(--card);border-radius:var(--rad);box-shadow:var(--sh)">
+<h2 style="margin-bottom:4px;font-size:.95rem">📩 Soumettre</h2>
+<p style="color:var(--tl);font-size:.76rem;margin-bottom:10px">Réponses verrouillées après soumission.</p>
+<button class="btn bp" id="submitBtn" onclick="submitExam()" style="font-size:.9rem;padding:10px 26px">📝 Soumettre</button>
+</div></div>
+</div>
+
+<div class="ov" id="resultsOverlay"><div class="mod"><h2>📊 Résultats</h2>
+<div class="gc" id="gradeCircle"><span id="gradeNote">--</span><small>/20</small></div>
+<div class="ap" id="appreciation">--</div><div class="pct" id="percentage">--</div>
+<div class="esc" id="exerciseScores"></div>
+<div class="bg"><button class="btn bp" onclick="closeResults()">📋 Correction</button><button class="btn bs" onclick="exportPDF()">📄 PDF</button></div>
+</div></div>
+
+<script>
+let cheatWarnings=0,examStarted=false,isSubmitted=false,editors={},timerInterval,remainingSeconds=3*3600+30*60;
+const MX=3,SK='nsi_bb2_2025';
+
+function startExam(){document.getElementById('fsPrompt').classList.remove('show');const e=document.documentElement;if(e.requestFullscreen)e.requestFullscreen();else if(e.webkitRequestFullscreen)e.webkitRequestFullscreen();examStarted=true;startTimer()}
+document.addEventListener('visibilitychange',()=>{if(examStarted&&!isSubmitted&&document.hidden)triggerCheat()});
+window.addEventListener('blur',()=>{if(examStarted&&!isSubmitted)triggerCheat()});
+document.addEventListener('fullscreenchange',()=>{if(examStarted&&!isSubmitted&&!document.fullscreenElement)triggerCheat()});
+document.addEventListener('contextmenu',e=>{if(examStarted&&!isSubmitted)e.preventDefault()});
+document.addEventListener('keydown',e=>{if(!examStarted||isSubmitted)return;if((e.ctrlKey||e.metaKey)&&['t','n','w'].includes(e.key)){e.preventDefault();triggerCheat()}if(e.key==='F12'){e.preventDefault();triggerCheat()}if((e.ctrlKey||e.metaKey)&&e.shiftKey&&['I','J','C'].includes(e.key.toUpperCase())){e.preventDefault();triggerCheat()}});
+
+function triggerCheat(){if(isSubmitted)return;cheatWarnings++;document.getElementById('cheatCount').textContent=cheatWarnings;document.getElementById('cheatBadge').classList.add('alert');setTimeout(()=>document.getElementById('cheatBadge').classList.remove('alert'),3000);if(cheatWarnings>=MX){document.getElementById('cheatOv').classList.remove('show');alert('🚫 SOUMISSION AUTOMATIQUE — 3 avertissements atteints.');submitExam(true);return}document.getElementById('warnD').textContent=cheatWarnings;document.getElementById('warnR').textContent=MX-cheatWarnings;document.getElementById('cheatOv').classList.add('show')}
+function dismissCheat(){document.getElementById('cheatOv').classList.remove('show');if(!document.fullscreenElement)document.documentElement.requestFullscreen?.()}
+
+const ED=[
+{title:"Ex.1 Routage",points:8,questions:[
+{id:"e1q1",pts:.5,type:"text",answer:"Décimale : 255.255.240.0\nBinaire : 11111111.11111111.11110000.00000000",keywords:["255.255.240.0","11111111","11110000","00000000"],explanation:"/20 signifie 20 bits à 1 pour le réseau. Octet 3 : 11110000 = 240."},
+{id:"e1q2",pts:.5,type:"text",answer:"2^12 - 2 = 4094 machines",keywords:["4094","4096","2^12","12 bits"],explanation:"32-20=12 bits hôtes. 2^12=4096, on soustrait 2 (réseau+broadcast) = 4094."},
+{id:"e1q3",pts:.75,type:"text",answer:"172 = 10101100\n16 = 00010000\n8 = 00001000\n8 = 00001000\nRésultat : 10101100.00010000.00001000.00001000",keywords:["10101100","00010000","00001000"],explanation:"Chaque octet est converti en binaire sur 8 bits."},
+{id:"e1q4",pts:.75,type:"text",answer:"IP AND Masque :\n10101100.00010000.00001000.00001000\n& 11111111.11111111.11110000.00000000\n= 10101100.00010000.00000000.00000000\nAdresse réseau : 172.16.0.0",keywords:["172.16.0.0","AND","10101100.00010000.00000000.00000000"],explanation:"L'opération AND bit à bit entre l'IP et le masque donne l'adresse réseau."},
+{id:"e1q5",pts:.5,type:"text",answer:"Broadcast : 10101100.00010000.00001111.11111111 = 172.16.15.255",keywords:["172.16.15.255","00001111","11111111"],explanation:"On met tous les bits hôtes à 1 dans l'adresse réseau."},
+{id:"e1q6",pts:.5,type:"text",answer:"IP la plus basse : 172.16.0.1\nIP la plus haute : 172.16.15.254",keywords:["172.16.0.1","172.16.15.254"],explanation:"1ère hôte = réseau+1, dernière = broadcast-1."},
+{id:"e1q7",pts:1.5,type:"text",answer:"Table R5 :\n90.90.90.0 | 90.90.90.5 | 0\n70.70.70.0 | 70.70.70.5 | 0\n50.50.50.0 | 50.50.50.5 | 0\n20.20.20.0 | 70.70.70.4 | 1\n60.60.60.0 | 70.70.70.4 | 1\n192.168.1.0 | 50.50.50.2 | 2\n10.10.10.0 | 50.50.50.2 | 1\n30.30.30.0 | 50.50.50.2 | 1\n40.40.40.0 | 50.50.50.2 | 1\n80.80.80.0 | 90.90.90.6 | 1\n172.16.0.0 | 90.90.90.6 | 1",keywords:["90.90.90.5","70.70.70.5","50.50.50.5","70.70.70.4","50.50.50.2","90.90.90.6"],explanation:"R5 est connecté à R4 (70.70.70), R2 (50.50.50) et R6 (90.90.90). Les réseaux directs ont 0 sauts."},
+{id:"e1q8",pts:.5,type:"text",answer:"R1 → R2 → R6 (2 sauts)",keywords:["R1","R2","R6","2 sauts"],explanation:"D'après la table RIP de R1, pour atteindre 172.16.0.0 : passerelle R2, puis R2 vers R6."},
+{id:"e1q9",pts:1.25,type:"text",answer:"R1-R2: 1, R1-R4: 10, R2-R3: 10, R2-R5: 1, R2-R6: 10, R3-R4: 1, R3-R6: 1, R4-R5: 1, R5-R6: 10",keywords:["1","10","coût"],explanation:"100 Mbps → coût 1. 10 Mbps → coût 10. Formule : 10^8 / débit(bps)."},
+{id:"e1q10",pts:.75,type:"text",answer:"Chemin optimal R1→R2→R6, coût = 1 + 10 = 11",keywords:["R1","R2","R6","11"],explanation:"R1→R2 (coût 1) + R2→R6 (coût 10) = 11. Tous les autres chemins sont ≥ 12."}
+]},
+{title:"Ex.2 BDD",points:7,questions:[
+{id:"e2q1",pts:.5,type:"text",answer:"Commande(NCmd: texte (clé primaire), DateCmd: date, #NCL: texte (clé étrangère → Client))",keywords:["NCmd","DateCmd","NCL","clé primaire","cle primaire","clé étrangère","cle etrangere"],explanation:"NCmd est la clé primaire, NCL est la clé étrangère référençant Client."},
+{id:"e2q2",pts:.5,type:"text",answer:"Non, NCmd ne peut pas être clé primaire dans Ligne_Cmd car il n'est pas unique. Ex: C001 apparaît 3 fois (P001, P004, P005).",keywords:["non","pas unique","3 fois","C001","P001","P004","P005"],explanation:"Une clé primaire doit être unique. Or NCmd='C001' apparaît pour 3 produits différents."},
+{id:"e2q3",pts:.5,type:"text",answer:"Clé primaire composite : (NCmd, NP). Dans une commande, un produit n'apparaît qu'une seule fois.",keywords:["NCmd","NP","composite","couple"],explanation:"Le couple (NCmd, NP) identifie de manière unique chaque ligne de commande."},
+{id:"e2q4",pts:2,type:"text",answer:"a) CL04 n'existe pas dans Client → violation clé étrangère.\nb) CL02 sans guillemets → erreur de syntaxe SQL (chaîne non encadrée).\nc) C002 existe déjà → violation clé primaire (doublon).\nd) C001 est référencée dans Ligne_Cmd → violation intégrité référentielle.",keywords:["CL04","n'existe pas","étrangère","guillemets","syntaxe","C002","existe","doublon","primaire","Ligne_Cmd","référentielle","référence"],explanation:"a) clé étrangère invalide. b) syntaxe incorrecte. c) clé primaire dupliquée. d) suppression impossible car référencée."},
+{id:"e2q5",pts:.5,type:"text",answer:"Peinture\nRobinet\nPrise",keywords:["peinture","robinet","prise"],explanation:"AMS=CL03, commande C003. Produits dans Ligne_Cmd pour C003 : P004(Peinture), P001(Robinet), P002(Prise)."},
+{id:"e2q6",pts:.5,type:"code",answer:"SELECT Libelle, Prix\nFROM Produit\nWHERE Qte_Pdt > 1000;",keywords:["SELECT","Libelle","Prix","FROM","Produit","WHERE","Qte_Pdt","> 1000","1000"],explanation:"Simple sélection avec filtre sur la quantité en stock."},
+{id:"e2q7",pts:.75,type:"code",answer:"SELECT DISTINCT Ligne_Cmd.NCmd\nFROM Ligne_Cmd\nJOIN Produit ON Ligne_Cmd.NP = Produit.NP\nWHERE Produit.Couleur = 'Blanc';",keywords:["SELECT","DISTINCT","NCmd","FROM","Ligne_Cmd","JOIN","Produit","ON","NP","WHERE","Couleur","Blanc"],explanation:"Jointure Ligne_Cmd-Produit, filtre sur couleur Blanc, DISTINCT pour éviter les doublons."},
+{id:"e2q8",pts:.5,type:"code",answer:"UPDATE Ligne_Cmd\nSET Qte_Cmd = Qte_Cmd * 0.9\nWHERE NCmd = 'C001';",keywords:["UPDATE","Ligne_Cmd","SET","Qte_Cmd","0.9","* 0.9","WHERE","NCmd","C001"],explanation:"UPDATE pour modifier, SET pour la formule (×0.9 = -10%), WHERE pour cibler C001."},
+{id:"e2q9",pts:.5,type:"code",answer:"INSERT INTO Ligne_Cmd (NCmd, NP, Qte_Cmd)\nVALUES ('C001', 'P002', 200);",keywords:["INSERT","INTO","Ligne_Cmd","VALUES","C001","P002","200"],explanation:"Batam = CL01, commande = C001. On ajoute le produit P002 (Prise) avec quantité 200."},
+{id:"e2q10",pts:.75,type:"code",answer:"DELETE FROM Ligne_Cmd WHERE NCmd = 'C003';\nDELETE FROM Commande WHERE NCL = 'CL03';\nDELETE FROM Client WHERE NCL = 'CL03';",keywords:["DELETE","FROM","Ligne_Cmd","C003","Commande","CL03","Client","NCL"],explanation:"Supprimer dans l'ordre inverse des dépendances : Ligne_Cmd → Commande → Client."}
+]},
+{title:"Ex.3 Processus",points:5,questions:[
+{id:"e3q1",pts:.75,type:"text",answer:"FCFS (ordre d'arrivée, non préemptif) :\n0-3: P1, 3-7: P4, 7-9: P3, 9-12: P5, 12-13: P2",keywords:["P1","P4","P3","P5","P2","0-3","3-7","7-9","9-12","12-13","FCFS"],explanation:"Ordre d'arrivée : P1(t=0), P4(t=1), P3(t=2), P5(t=5), P2(t=6). Chacun s'exécute sans interruption."},
+{id:"e3q2",pts:1,type:"text",answer:"SJF (non préemptif, plus court d'abord) :\n0-3: P1, 3-5: P3, 5-8: P5, 8-9: P2, 9-13: P4",keywords:["P1","P3","P5","P2","P4","0-3","3-5","5-8","8-9","9-13","SJF"],explanation:"À t=3 : P3(2) et P4(4) disponibles → P3 (plus court). À t=5 : P4(4) et P5(3) → P5. À t=8 : P4(4) et P2(1) → P2."},
+{id:"e3q3",pts:1,type:"text",answer:"SRTF (préemptif) :\n0-3: P1, 3-5: P3, 5-6: P5, 6-7: P2, 7-9: P5, 9-13: P4",keywords:["P1","P3","P5","P2","P4","0-3","3-5","5-6","6-7","7-9","9-13","SRTF","préempt"],explanation:"P5 est préempté à t=6 par P2 (durée restante 1 < 2). P5 reprend ensuite à t=7."},
+{id:"e3q4",pts:.5,type:"code",answer:"def moitie_gauche(lst):\n    return lst[:len(lst) // 2]",keywords:["moitie_gauche","return","lst","len","//","2","[:"],explanation:"On prend les len//2 premiers éléments (division entière)."},
+{id:"e3q5",pts:.5,type:"code",answer:"def moitie_droite(lst):\n    return lst[len(lst) // 2:]",keywords:["moitie_droite","return","lst","len","//","2","[len"],explanation:"On prend les éléments à partir de l'indice len//2."},
+{id:"e3q6",pts:1.25,type:"code",answer:"def le_plus_court(file_attente):\n    n = len(file_attente)\n    if n == 0: return None\n    if n == 1: return file_attente[0]\n    file_gauche = moitie_gauche(file_attente)\n    file_droite = moitie_droite(file_attente)\n    le_plus_court_1 = le_plus_court(file_gauche)\n    le_plus_court_2 = le_plus_court(file_droite)\n    if le_plus_court_1.get_temps_execution() < le_plus_court_2.get_temps_execution():\n        return le_plus_court_1\n    return le_plus_court_2",keywords:["file_attente[0]","moitie_droite(file_attente)","le_plus_court(file_gauche)","le_plus_court(file_droite)","get_temps_execution","return le_plus_court_2"],explanation:"Cas de base : n=1 → retourner le seul élément. Sinon diviser, chercher récursivement le min dans chaque moitié, comparer."}
+]}];
+
+document.addEventListener('DOMContentLoaded',()=>{initEditors();loadState();setInterval(autoSave,20000)});
+function initEditors(){document.querySelectorAll('.code-editor').forEach(ta=>{const m=ta.dataset.mode||'python';const cm=CodeMirror.fromTextArea(ta,{mode:m==='sql'?'text/x-sql':'python',theme:'dracula',lineNumbers:true,indentUnit:4,tabSize:4,indentWithTabs:false,lineWrapping:true,matchBrackets:true,extraKeys:{"Tab":cm=>{cm.replaceSelection("    ","end")}}});editors[ta.id]=cm;cm.setSize(null,'auto');cm.on('change',()=>cm.setSize(null,'auto'))})}
+function startTimer(){updateTimer();timerInterval=setInterval(()=>{if(isSubmitted){clearInterval(timerInterval);return}remainingSeconds--;if(remainingSeconds<=0){remainingSeconds=0;clearInterval(timerInterval);submitExam(true)}updateTimer()},1000)}
+function updateTimer(){const h=Math.floor(remainingSeconds/3600),m=Math.floor((remainingSeconds%3600)/60),s=remainingSeconds%60;document.getElementById('timerDisplay').textContent=`${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;const b=document.getElementById('timerBox');b.classList.remove('w','d');if(remainingSeconds<600)b.classList.add('d');else if(remainingSeconds<1800)b.classList.add('w')}
+function switchTab(i){document.querySelectorAll('.pnl').forEach((p,j)=>p.classList.toggle('active',j===i));document.querySelectorAll('.tab').forEach((t,j)=>t.classList.toggle('active',j===i));window.scrollTo({top:0,behavior:'smooth'})}
+function autoSave(){if(isSubmitted)return;const d={time:remainingSeconds,ch:cheatWarnings,a:{}};ED.forEach(ex=>ex.questions.forEach(q=>{if(editors[`ans_${q.id}`])d.a[q.id]=editors[`ans_${q.id}`].getValue();else{const el=document.getElementById(`ans_${q.id}`);if(el)d.a[q.id]=el.value}}));localStorage.setItem(SK,JSON.stringify(d));document.getElementById('saveInd').innerHTML='<span class="dot" style="background:#27ae60"></span>'+new Date().toLocaleTimeString()}
+function loadState(){const r=localStorage.getItem(SK);if(!r)return;try{const d=JSON.parse(r);if(d.time)remainingSeconds=d.time;if(d.ch){cheatWarnings=d.ch;document.getElementById('cheatCount').textContent=cheatWarnings}updateTimer();if(d.a)Object.keys(d.a).forEach(q=>{if(editors[`ans_${q}`])editors[`ans_${q}`].setValue(d.a[q]);else{const el=document.getElementById(`ans_${q}`);if(el)el.value=d.a[q]}})}catch(e){}}
+function getA(q){if(editors[`ans_${q}`])return editors[`ans_${q}`].getValue().trim();const el=document.getElementById(`ans_${q}`);return el?el.value.trim():''}
+function norm(s){return s.toLowerCase().replace(/[''"`]/g,"'").replace(/\s+/g,' ').replace(/[àâä]/g,'a').replace(/[éèêë]/g,'e').replace(/[îï]/g,'i').replace(/[ôö]/g,'o').replace(/[ùûü]/g,'u').replace(/ç/g,'c').trim()}
+function grade(q){const a=getA(q.id);if(!a)return{score:0,max:q.pts,correct:false};const na=norm(a);let m=0;const kw=q.keywords.map(k=>norm(k));kw.forEach(k=>{if(na.includes(k))m++});const r=m/kw.length;let sc;if(r>=.6)sc=q.pts;else if(r>=.35)sc=q.pts*.5;else if(r>=.15)sc=q.pts*.25;else sc=0;sc=Math.round(sc*4)/4;return{score:sc,max:q.pts,correct:sc>=q.pts*.55}}
+function submitExam(forced=false){if(isSubmitted)return;if(!forced&&!confirm('📝 Soumettre votre copie ?'))return;isSubmitted=true;clearInterval(timerInterval);document.getElementById('submitBtn').disabled=true;document.getElementById('submitBtn').textContent='✅ Soumise';document.querySelectorAll('.ans textarea').forEach(t=>t.readOnly=true);Object.values(editors).forEach(cm=>cm.setOption('readOnly',true));document.querySelectorAll('.qc').forEach(c=>c.classList.add('locked'));if(document.fullscreenElement)document.exitFullscreen?.().catch(()=>{});let ts=0,tm=0,exS=[];ED.forEach((ex,ei)=>{let xs=0,xm=0;ex.questions.forEach(q=>{const r=grade(q);xs+=r.score;xm+=r.max;ts+=r.score;tm+=r.max;showCorr(q,r)});exS.push({title:ex.title,score:xs,max:xm,idx:ei});const tab=document.querySelector(`.tab[data-tab="${ei}"] .b`);if(tab){tab.textContent=`${xs.toFixed(1)}/${xm}`;if(xs>=xm*.5)tab.parentElement.classList.add('done')}});showResults(ts,tm,exS)}
+function showCorr(q,r){const c=document.getElementById(`card_${q.id}`),co=document.getElementById(`corr_${q.id}`);if(!c||!co)return;c.classList.add(r.correct?'ok':'ko');const i=r.correct?'✅':(r.score>0?'⚠️':'❌');co.className=`cor show ${r.correct?'cok':'cko'}`;co.innerHTML=`<div class="ri">${i} ${r.score}/${r.max}pt</div><h4>📌 Attendu:</h4><div class="ex">${esc(q.answer)}</div><div class="ep">💡 ${q.explanation}</div>`}
+function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
+function showResults(t,m,exS){const n=Math.round((t/m)*20*4)/4,p=Math.round((t/m)*100);let ap,gc;if(n>=16){ap='🏆 Excellent';gc='ge'}else if(n>=14){ap='👏 Bien';gc='gb'}else if(n>=12){ap='👍 Assez bien';gc='gab'}else if(n>=10){ap='✊ Passable';gc='gp'}else{ap='📚 Insuffisant';gc='gi'}document.getElementById('gradeCircle').className=`gc ${gc}`;document.getElementById('gradeNote').textContent=n.toFixed(2);document.getElementById('appreciation').textContent=ap;let cn=cheatWarnings>0?` | ⚠️ ${cheatWarnings} triche(s)`:'';document.getElementById('percentage').textContent=`${p}% — ${t.toFixed(2)}/${m}pts → ${n.toFixed(2)}/20${cn}`;let h='';exS.forEach(e=>{const p2=Math.round((e.score/e.max)*100),c=p2>=55?'#27ae60':p2>=30?'#f39c12':'#c0392b';h+=`<div class="sr"><div><strong>${e.title}</strong><div class="pbr"><div class="fill" style="width:${p2}%;background:${c}"></div></div></div><div style="font-weight:700;color:${c}">${e.score.toFixed(2)}/${e.max}</div></div>`});document.getElementById('exerciseScores').innerHTML=h;document.getElementById('resultsOverlay').classList.add('show')}
+function closeResults(){document.getElementById('resultsOverlay').classList.remove('show');switchTab(0)}
+function exportPDF(){closeResults();document.querySelectorAll('.pnl').forEach(p=>p.style.display='block');html2pdf().set({margin:5,filename:`BB2_NSI_2025_${cheatWarnings>0?'TRICHE'+cheatWarnings+'_':''}Copie.pdf`,image:{type:'jpeg',quality:.9},html2canvas:{scale:2,useCORS:true},jsPDF:{unit:'mm',format:'a4',orientation:'portrait'}}).from(document.getElementById('mainContainer')).save().then(()=>document.querySelectorAll('.pnl').forEach(p=>p.style.display=''))}
+function resetExam(){if(!confirm('⚠️ Réinitialiser ?'))return;localStorage.removeItem(SK);location.reload()}
+</script>
+</body>
+</html>
